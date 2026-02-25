@@ -7,7 +7,7 @@ const storage = multer.memoryStorage();
 
 export const upload = multer({
   storage,
-  limits: { fileSize: 15 * 1024 * 1024 }, // 15MB
+  limits: { fileSize: 100 * 1024 * 1024 }, // 15MB
 });
 
 export const uploadFile = async (req, res) => {
