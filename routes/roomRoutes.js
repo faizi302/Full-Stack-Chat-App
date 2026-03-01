@@ -18,7 +18,7 @@ import { authMiddleware, adminMiddleware } from "../middleware/auth.js";
 const router = express.Router();
 
 // Create or get a room
-router.post("/", authMiddleware, createOrGetRoom);
+router.post("/", authMiddleware,adminMiddleware, createOrGetRoom);
 
 // Get all rooms for a user
 router.get("/user/:userId", authMiddleware, getUserRooms);
