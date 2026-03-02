@@ -27,13 +27,19 @@ const app = express();
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 
 app.use(cors({
-  origin: CLIENT_URL,
+  origin: process.env.CLIENT_URL,          // already good
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],  // add if you ever use Bearer tokens
 }));
 app.use(express.json());
 app.use(cookieParser());
 
 // Routes
+app.get("/",(req,res)=>{
+  res.send("Connected the Backend and it's HOME Route")
+})
+
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/rooms", roomRoutes);
