@@ -27,11 +27,12 @@ const app = express();
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 
 app.use(cors({
-  origin: process.env.CLIENT_URL,          // already good
+  origin: CLIENT_URL, // Use the constant consistently
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],  // add if you ever use Bearer tokens
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'], // Added Cookie
 }));
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -56,6 +57,7 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
     credentials: true,
   },
+  transports: ['websocket', 'polling'] // Explicitly allow both
 });
 
 socketHandler(io);

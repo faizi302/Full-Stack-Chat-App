@@ -42,14 +42,18 @@ const formatUser = (user) => ({
 // ── Set JWT cookie ─────────────────────────────────────────────
 const setTokenCookie = (res, user) => {
   const token = jwt.sign(
-    { id: user._id, role: user.role },   // role is baked into the token
+    { id: user._id, role: user.role },
     process.env.JWT_SECRET,
     { expiresIn: "7d" }
   );
+
+  // Vercel deployments are always production (HTTPS)
+  const isProduction = process.env.NODE_ENV === "production";
+
   res.cookie("token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    secure: true,            // MUST be true for SameSite: 'none'
+    sameSite: "none",        // MUST be 'none' because domains are different
     maxAge: 7 * 24 * 60 * 60 * 1000,
     path: "/",
   });
